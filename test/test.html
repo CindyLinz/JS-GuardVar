@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+        <title>Test GuardVar</title>
+        <script src="../lib/GuardVar.js"></script>
+        <script>
+            var gv = new GuardVar(false);
+            var counter = 0;
+            var toggle = function(){
+                setTimeout(function(){
+                    gv.open();
+                    setTimeout(function(){
+                        gv.pause();
+                        setTimeout(function(){
+                            gv.open();
+                            setTimeout(function(){
+                                gv.stop();
+                                toggle();
+                            }, 3000);
+                        }, 3000);
+                    }, 3000);
+                }, 3000);
+            };
+
+            setInterval(gv.guard(function(){
+                ++counter;
+                console.log((new Date).toLocaleTimeString()+' '+counter);
+            }), 1000);
+
+            setTimeout(toggle, 500);
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
